@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div>
+        <form method="post">
+            <label>
+                <input type="text" name="title" placeholder="Введите заголовок">
+            </label>
+            <label>
+                <input type="text" name="body" placeholder="Введите пост">
+            </label>
+            <label>
+                <input type="text" name="tag" placeholder="Введите тег">
+            </label>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div>Список постов</div>
+    {{#posts}}
+        <b>{{id}}</b>
+        <h2>{{title}}</h2>
+        <span>{{body}}</span>
+    {{/posts}}
+</body>
+</html>
