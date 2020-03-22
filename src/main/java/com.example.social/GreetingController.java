@@ -55,8 +55,12 @@ public class GreetingController {
     @PostMapping("filter")
     public String filter(@RequestParam String title,
                          Map<String, Object> model) {
-        List<Post> posts = postRepository.findByTitle(title);
-
+        Iterable<Post> posts;
+        if (title != null && !title.isEmpty()) {
+            posts = postRepository.findByTitle(title);
+        } else {
+            posts = postRepository.findAll();
+        }
         model.put("posts", posts);
 
         return "main";
