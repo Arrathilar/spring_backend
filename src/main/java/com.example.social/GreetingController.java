@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -45,6 +46,16 @@ public class GreetingController {
         postRepository.save(post);
 
         Iterable<Post> posts = postRepository.findAll();
+
+        model.put("posts", posts);
+
+        return "main";
+    }
+
+    @PostMapping("filter")
+    public String filter(@RequestParam String title,
+                         Map<String, Object> model) {
+        List<Post> posts = postRepository.findByTitle(title);
 
         model.put("posts", posts);
 
