@@ -1,4 +1,4 @@
-package com.example.social;
+package com.example.social.controller;
 
 import com.example.social.domain.Post;
 import com.example.social.repos.PostRepository;
@@ -13,11 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class GreetingController {
+public class MainController {
     @Autowired
     private PostRepository postRepository;
 
-    @GetMapping
+    @GetMapping("/")
+    public String greeting() {
+        return "greeting";
+    }
+
+    @GetMapping("/main")
     public String main(Map<String, Object> model) {
         Iterable<Post> posts = postRepository.findAll();
         model.put("posts", posts);
@@ -33,7 +38,7 @@ public class GreetingController {
      * @param model model
      * @return main
      */
-    @PostMapping
+    @PostMapping("/main")
     public String add(
             @RequestParam (required=false) Integer id,
             @RequestParam String title,
