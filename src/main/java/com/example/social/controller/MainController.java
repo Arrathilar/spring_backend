@@ -1,8 +1,10 @@
 package com.example.social.controller;
 
 import com.example.social.domain.Post;
+import com.example.social.domain.User;
 import com.example.social.repos.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,13 +42,14 @@ public class MainController {
      */
     @PostMapping("/main")
     public String add(
+            @AuthenticationPrincipal User user,
             @RequestParam (required=false) Integer id,
             @RequestParam String title,
             @RequestParam String body,
             @RequestParam String tag,
             Map<String, Object> model
     ) {
-        Post post = new Post(id, title, body, tag);
+        Post post = new Post(id, title, body, tag, user);
 
         postRepository.save(post);
 

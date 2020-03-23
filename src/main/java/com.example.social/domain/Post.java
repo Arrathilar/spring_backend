@@ -1,9 +1,6 @@
 package com.example.social.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Post {
@@ -14,6 +11,10 @@ public class Post {
     private String title;
     private String body;
     private String tag;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
 
     public Post() {
     }
@@ -30,12 +31,14 @@ public class Post {
             Integer id,
             String title,
             String body,
-            String tag
+            String tag,
+            User user
     ) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.tag = tag;
+        this.author = user;
     }
 
     /**
@@ -108,5 +111,27 @@ public class Post {
      */
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
+    }
+
+    /**
+     * Get author
+     *
+     * @return author
+     */
+    public User getAuthor() {
+        return author;
+    }
+
+    /**
+     * Set author
+     *
+     * @param author author
+     */
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }
