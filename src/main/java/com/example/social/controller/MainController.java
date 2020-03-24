@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -25,9 +24,15 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(Map<String, Object> model) {
+    public String main(@RequestParam(required = false, defaultValue = "") String title, Model model) {
         Iterable<Post> posts = postRepository.findAll();
-        model.put("posts", posts);
+        if (title != null && !title.isEmpty()) {
+            posts = postRepository.findByTitle(title);
+        } else {
+            posts = postRepository.findAll();
+        }
+        model.addAttribute("posts", posts);
+        model.addAttribute("title", title);
         return "main";
     }
 
@@ -55,20 +60,6 @@ public class MainController {
 
         Iterable<Post> posts = postRepository.findAll();
 
-        model.put("posts", posts);
-
-        return "main";
-    }
-
-    @PostMapping("filter")
-    public String filter(@RequestParam String title,
-                         Map<String, Object> model) {
-        Iterable<Post> posts;
-        if (title != null && !title.isEmpty()) {
-            posts = postRepository.findByTitle(title);
-        } else {
-            posts = postRepository.findAll();
-        }
         model.put("posts", posts);
 
         return "main";
