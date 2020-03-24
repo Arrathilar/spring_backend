@@ -3,6 +3,7 @@
 
 <@common.page>
     <@login.logout />
+    <span><a href="/user">User list</a></span>
     <div>
         <form method="post">
             <label>
@@ -20,7 +21,7 @@
     </div>
     <form method="get" action="/main">
         <label>
-            <input type="text" name="title" value="${title}">
+            <input type="text" name="title" value="${title!}">
         </label>
         <button type="submit">Search</button>
     </form>
