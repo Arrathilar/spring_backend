@@ -11,6 +11,7 @@ public class Post {
     private String title;
     private String body;
     private String tag;
+    private String filename;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -133,5 +134,23 @@ public class Post {
      */
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    /**
+     * Get filename
+     *
+     * @return filename
+     */
+    public String getFilename() {
+        return filename;
+    }
+
+    /**
+     * Set filename
+     *
+     * @param filename post image url
+     */
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }
