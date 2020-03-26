@@ -1,6 +1,10 @@
 <#import "parts/common.ftlh" as common>
 
 <@common.page>
-    <h1>Hello user!</h1>
-    <a href="/main">Main</a>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="text-center">Hello, guest!</h5>
+            <div class="text-center text-muted">Simple clone of twitter</div>
+        </div>
+    </div>
 </@common.page>
