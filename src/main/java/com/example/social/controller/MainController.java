@@ -56,7 +56,7 @@ public class MainController {
     @PostMapping("/main")
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam (required=false) Integer id,
+            @RequestParam (required=false) Long id,
             @RequestParam String title,
             @RequestParam String body,
             @RequestParam String tag, Map<String, Object> model,
