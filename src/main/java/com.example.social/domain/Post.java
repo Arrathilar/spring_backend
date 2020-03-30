@@ -1,6 +1,9 @@
 package com.example.social.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Post {
@@ -8,8 +11,12 @@ public class Post {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Please fill the title")
     private String title;
+    @NotBlank(message = "Please fill the body")
+    @Length(max = 2048, message = "Body to long")
     private String body;
+    @Length(max = 255, message = "Tag line to long")
     private String tag;
     private String filename;
 

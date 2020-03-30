@@ -13,23 +13,44 @@
         <a class="btn btn-primary" data-toggle="collapse" href="#createPost" role="button" aria-expanded="false" aria-controls="createPost">
             Add new post
         </a>
-        <div class="collapse" id="createPost">
+        <div class="collapse <#if message??>show</#if>" id="createPost">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">Загаловок</label>
-                    <input class="form-control" id="title" type="text" name="title" placeholder="Введите заголовок">
+                    <input class="form-control ${(titleError??)?string('is-invalid', '')}"
+                           value="<#if message??>${message.title}</#if>"
+                           id="title" type="text" name="title" placeholder="Введите заголовок">
+                    <#if titleError??>
+                    <div class="invalid-feedback">
+                        ${titleError}
+                    </div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <label for="body">Тело поста</label>
-                    <input class="form-control" id="body" type="text" name="body" placeholder="Введите пост">
+                    <input class="form-control ${(bodyError??)?string('is-invalid', '')}" id="body"
+                           value="<#if message??>${message.body}</#if>"
+                           type="text" name="body" placeholder="Введите пост">
+                    <#if bodyError??>
+                        <div class="invalid-feedback">
+                            ${bodyError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <label for="tag">Теги поста</label>
-                    <input class="form-control" id="tag" type="text" name="tag" placeholder="Введите тег">
+                    <input class="form-control ${(tagError??)?string('is-invalid', '')}" id="tag"
+                           value="<#if message??>${message.tag}</#if>"
+                           type="text" name="tag" placeholder="Введите тег">
+                    <#if tagError??>
+                        <div class="invalid-feedback">
+                            ${tagError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="custom-file">
                     <label for="file">Изображение</label>
-                    <input type="file" class="custom-file-input" id="file" name="file" required>
+                    <input type="file" class="custom-file-input" id="file" name="file">
                     <label class="custom-file-label" for="file">Choose file...</label>
                 </div>
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
