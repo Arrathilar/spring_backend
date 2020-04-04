@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -25,12 +27,21 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
-        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
+    public String addUser(
+            @RequestParam("password2") String passwordConfirm,
+            @Valid User user,
+            BindingResult bindingResult,
+            Model model) {
+        boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
+        if (isConfirmEmpty) {
+            model.addAttribute("password2Error", "Password confirmation cannot be empty");
+        }
+
+        if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Password are different");
         }
 
-        if (bindingResult.hasErrors()) {
+        if (isConfirmEmpty || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errors);
@@ -53,8 +64,10 @@ public class RegistrationController {
 
         if (isActivated) {
             model.addAttribute("message", "User successfully activated!");
+            model.addAttribute("messageType", "success");
         } else {
             model.addAttribute("message", "Activation code is not found!");
+            model.addAttribute("messageType", "danger");
         }
 
         return "login";
